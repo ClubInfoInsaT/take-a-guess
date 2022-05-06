@@ -37,3 +37,4 @@ Make sure to respect the [issue-template](../.github/issue_template.md) and the 
 ### Learn More
 
 - Check out the [socket.io documention](https://socket.io/docs/v4/)
+- Read more about [SQLAlchemy](https://docs.sqlalchemy.org/en/14/orm/tutorial.html)

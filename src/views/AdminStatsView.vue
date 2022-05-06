@@ -12,7 +12,7 @@
       </div>
       <div class="w-3/4 sm:w-1/2">
         <p class="text-center text-xl text-white font-bold tracking-wider">
-          Joueurs spectateur: {{ deadPlayers() }}
+          Joueurs spectateurs: {{ deadPlayers() }}
         </p>
         <apexchart type="bar" :options="options" :series="dead"></apexchart>
       </div>
