@@ -183,6 +183,8 @@ def get_player_info(sid: str):
             "left": player.hearts,
             "timer": room.timer,
             "question": room.question,
+            "isCorrect": room.answer == player.answer,
+            "answer": room.answer,
         },
         to=sid,
     )
@@ -283,19 +285,43 @@ def user_answer(sid: str, data: dict):
             },
             to=room.admin_id,
         )
-        # Send a response to the player
-        sio.emit(
-            "user-answer",
-            data={
-                "correct": answer == room.answer,
-                "answer": room.answer,
-                "hearts": room.max_lives,
-                "left": player.hearts,
-            },
-            to=sid,
-        )
     else:
         print(f"An error occured while answering: '{answer}'")
+
+
+@sio.on("question-stats")
+def question_stats(sid: str):
+    """Sends the result of the question to all players
+
+    Args:
+        sid (str): the admin's socket io
+    """
+    room = session.query(Room).filter_by(id=room_id).first()
+
+    # Send the answers to the admin
+    dead_players = [p for p in room.players if p.hearts == 0]
+    players_alive = [p for p in room.players if p.hearts > 0]
+    sio.emit(
+        "question-stats",
+        data={
+            "players": len(room.players),
+            "alive": [
+                len([p for p in players_alive if p.answer == "A"]),
+                len([p for p in players_alive if p.answer == "B"]),
+                len([p for p in players_alive if p.answer == "C"]),
+                len([p for p in players_alive if p.answer == "D"]),
+                len([p for p in players_alive if p.answer == "X"]),
+            ],
+            "dead": [
+                len([p for p in dead_players if p.answer == "A"]),
+                len([p for p in dead_players if p.answer == "B"]),
+                len([p for p in dead_players if p.answer == "C"]),
+                len([p for p in dead_players if p.answer == "D"]),
+                len([p for p in dead_players if p.answer == "X"]),
+            ],
+        },
+        room=room.id,
+    )
 
 
 @sio.on("next-question")

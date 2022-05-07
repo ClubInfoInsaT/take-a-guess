@@ -13,22 +13,22 @@
         <answer-button
           answer="A"
           :selected="selectedAnswer === 'A'"
-          @click.native="!hasAnswered && giveAnswer('A')"
+          @click.native="!hasAnswered && setAnswer('A')"
         />
         <answer-button
           answer="B"
           :selected="selectedAnswer === 'B'"
-          @click.native="!hasAnswered && giveAnswer('B')"
+          @click.native="!hasAnswered && setAnswer('B')"
         />
         <answer-button
           answer="C"
           :selected="selectedAnswer === 'C'"
-          @click.native="!hasAnswered && giveAnswer('C')"
+          @click.native="!hasAnswered && setAnswer('C')"
         />
         <answer-button
           answer="D"
           :selected="selectedAnswer === 'D'"
-          @click.native="!hasAnswered && giveAnswer('D')"
+          @click.native="!hasAnswered && setAnswer('D')"
         />
       </div>
 
@@ -38,20 +38,6 @@
           class="text-[#5E17EB]"
           :percent="100 * (1 - (maxTime - timeLeft) / maxTime)"
         />
-        <p
-          class="text-4xl text-white uppercase"
-          :class="hasAnswered ? 'block' : 'hidden'"
-          v-if="isCorrect === true"
-        >
-          correct
-        </p>
-        <p
-          class="text-4xl text-white uppercase text-center"
-          :class="hasAnswered ? 'block' : 'hidden'"
-          v-if="isCorrect === false"
-        >
-          raté ! <br />réponse: {{ rightAnswer }}
-        </p>
       </div>
     </div>
   </div>
@@ -76,8 +62,6 @@ export default class QuizzView extends Vue {
   question = ""; // The number of question
   hasAnswered = false; // Whether or not the player answered the question
   selectedAnswer = ""; // The player's selected answer
-  isCorrect: boolean | null = null; // Whether or not the answer is correct
-  rightAnswer = ""; // The right answer to the question
   maxTime = 0; // Time to answer the question
   timeLeft = Number.MAX_VALUE;
   startTime!: number;
@@ -87,13 +71,6 @@ export default class QuizzView extends Vue {
    * When the component is mounted
    */
   mounted() {
-    /**
-     * 
-    this.hearts = parseInt(this.$route.params.hearts);
-    this.heartsLeft = parseInt(this.$route.params.heartsLeft);
-    this.maxTime = parseInt(this.$route.params.timer);
-    this.question = this.$route.params.question;
-     */
     this.startTime = new Date().getTime();
 
     this.intervalId = setInterval(() => {
@@ -101,12 +78,11 @@ export default class QuizzView extends Vue {
         this.maxTime - (new Date().getTime() - this.startTime) / 1000;
       if (this.timeLeft <= 0) {
         clearInterval(this.intervalId);
-        this.giveAnswer("X");
+        this.giveAnswer();
       }
     }, 1000);
 
     this.$socket.emit("get-player-info");
-
     this.sockets.subscribe("get-player-info", (data) => {
       this.hearts = parseInt(data.hearts);
       this.heartsLeft = data.left;
@@ -114,34 +90,40 @@ export default class QuizzView extends Vue {
       this.question = data.question;
     });
 
-    this.sockets.subscribe("user-answer", (data) => {
-      console.log("Data answer: ", data);
-      this.heartsLeft = data.left;
-      this.isCorrect = data.correct;
-      this.rightAnswer = data.answer;
-    });
+    this.sockets.subscribe("question-stats", (data) => {
+      const params = {
+        dead: data.dead,
+        alive: data.alive,
+      };
+      this.$router.push({
+        name: "stats",
+        params: params,
+      });
 
-    this.sockets.subscribe("next-question", () => {
-      this.$router.push("be-ready");
-    });
-
-    this.sockets.subscribe("show-leaderboard", () => {
-      this.$router.push("leaderboard");
+      console.log("Pushing:", params);
     });
   }
 
   /**
    * Submit the player's answer
+   * If the player didn't response in time or didn't select an answer
+   * Send 'X'
    */
-  giveAnswer(answer: string) {
-    this.selectedAnswer = answer;
+  giveAnswer() {
     this.$socket.emit("user-answer", {
-      answer: answer,
+      answer: this.selectedAnswer ? this.selectedAnswer : "X",
     });
-    // TODO: Block answer and show results
     this.hasAnswered = true;
     // Kill the timer
     clearInterval(this.intervalId);
+  }
+
+  /**
+   * Set player's answer
+   * @param answer The user's selected answer
+   */
+  setAnswer(answer: string) {
+    this.selectedAnswer = answer;
   }
 }
 </script>
