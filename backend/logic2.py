@@ -123,6 +123,7 @@ def onLeaveRoom(sid: str):
         sid (str): The emitter's SID
     """
     room = session.query(Room).filter_by(id=room_id).first()
+    players = session.query(Player).filter_by(room=room_id).all()
 
     if room:
         # If the emitter is a player then remove him from the table
@@ -133,7 +134,11 @@ def onLeaveRoom(sid: str):
         elif room.admin_id == sid:
             room.players = []
             sio.emit("leave-room", to=room.admin_id)
-            # TODO: Remove room from the DB
+            session.delete(room)
+            for player in players:
+                session.delete(player)
+    else:
+        sio.emit("leave-room", to=sid)
 
 
 @sio.on("get-game-info")
