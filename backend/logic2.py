@@ -64,6 +64,7 @@ def onJoinRoom(sid: str, data: dict):
     """
     username = data.get("username", None)
     room = session.query(Room).filter_by(id=room_id).first()
+    player = session.query(Player).filter_by(name=username).first()
 
     if not username:
         sio.emit(
@@ -71,35 +72,47 @@ def onJoinRoom(sid: str, data: dict):
             data=make_response("error", "Unspecified username"),
             to=sid,
         )
-    elif room and room.locked:
-        sio.emit(
-            "join-room",
-            data=make_response("error", "Game has already started"),
-        )
     else:
-        room.players.append(
-            Player(
-                sid=sid,
-                name=username,
-                points=0,
-                past_points=0,
-                answer="",
-                hearts=room.max_lives,
+        if room:
+            if room.locked:
+                sio.emit(
+                    "join-room",
+                    data=make_response("error", "Game has already started"),
+                )
+            elif player != None:
+                sio.emit(
+                    "join-room",
+                    data=make_response("error", "This name is already taken"),
+                )
+            else:
+                room.players.append(
+                    Player(
+                        sid=sid,
+                        name=username,
+                        points=0,
+                        past_points=0,
+                        answer="",
+                        hearts=room.max_lives,
+                    )
+                )
+                sio.enter_room(sid, room=room.id)
+                sio.emit(
+                    "join-room",
+                    data=make_response("success", "Successfully entered the lobby"),
+                    to=sid,
+                )
+
+                players = [player.to_dict() for player in room.players]
+
+                # Tell the admin a new player joined the room
+                sio.emit("user-joined", data={"players": players}, to=room.admin_id)
+                # Tell the players someone joined the room too
+                sio.emit("user-joined", data={"players": players}, room=room.id)
+        else:
+            sio.emit(
+                "join-room",
+                data=make_response("error", "There's no room to join at the moment"),
             )
-        )
-        sio.enter_room(sid, room=room.id)
-        sio.emit(
-            "join-room",
-            data=make_response("success", "Successfully entered the lobby"),
-            to=sid,
-        )
-
-        players = [player.to_dict() for player in room.players]
-
-        # Tell the admin a new player joined the room
-        sio.emit("user-joined", data={"players": players}, to=room.admin_id)
-        # Tell the players someone joined the room too
-        sio.emit("user-joined", data={"players": players}, room=room.id)
 
 
 @sio.on("leave-room")
