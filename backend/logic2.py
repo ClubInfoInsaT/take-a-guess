@@ -340,7 +340,7 @@ def next_question(sid: str):
 
     # Emit to the admin and players
     sio.emit("next-question", to=room.admin_id)
-    sio.emit("next-question", to=room.id)
+    sio.emit("next-question", room=room.id)
 
 
 @sio.on("invalidate")
@@ -367,7 +367,9 @@ def invalidate(sid: str):
 def get_players(sid: str):
     room = session.query(Room).filter_by(id=room_id).first()
     players = [player.to_dict() for player in room.players]
-    sio.emit("get-players", data={"players": players}, to=sid)
+    sio.emit(
+        "get-players", data={"players": players, "maxLives": room.max_lives}, to=sid
+    )
 
 
 @sio.on("show-leaderboard")
