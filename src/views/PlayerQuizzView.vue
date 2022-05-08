@@ -102,6 +102,14 @@ export default class QuizzView extends Vue {
 
       console.log("Pushing:", params);
     });
+
+    this.sockets.subscribe("next-question", () => {
+      this.$router.push({ name: "beReady" });
+    });
+
+    this.sockets.subscribe("invalidate", () => {
+      this.$router.push({ name: "beReady" });
+    });
   }
 
   /**
