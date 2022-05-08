@@ -36,24 +36,22 @@ class Player(Base):
     room = Column(String, ForeignKey("rooms.id"))
     sid = Column(String, primary_key=True)
     name = Column(String)
-    points = Column(Integer)
-    past_points = Column(Integer)
     answer = Column(String)
     hearts = Column(Integer)
+    death_at = Column(Integer)
 
     player = relationship("Room", back_populates="players")
 
     def __repr__(self) -> str:
-        return f"Player(name={self.name}, sid={self.sid}, points={self.points}, past_points={self.past_points}, answer={self.answer}, hearts={self.hearts})"
+        return f"Player(name={self.name}, sid={self.sid}, answer={self.answer}, hearts={self.hearts}, death_at={self.death_at})"
 
     def to_dict(self) -> dict:
         return {
             "id": self.sid,
             "name": self.name,
-            "points": self.points,
-            "past-points": self.past_points,
             "answer": self.answer,
             "hearts": self.hearts,
+            "deathAt": self.death_at,
         }
 
 
