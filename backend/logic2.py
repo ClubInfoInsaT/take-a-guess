@@ -89,10 +89,9 @@ def onJoinRoom(sid: str, data: dict):
                     Player(
                         sid=sid,
                         name=username,
-                        points=0,
-                        past_points=0,
                         answer="",
                         hearts=room.max_lives,
+                        death_at=0,
                     )
                 )
                 sio.enter_room(sid, room=room.id)
@@ -256,15 +255,20 @@ def user_answer(sid: str, data: dict):
         player = session.query(Player).filter_by(sid=sid).first()
         player.answer = answer
 
+        # Increase the number of turns played for player who are still alive
+        if player.hearts > 0:
+            player.death_at += 1
+
+        # If th player is already dead (from  previous turn), pass
+        if player.hearts == 0:
+            pass
         # If the answer is incorrect remove a life if he is still alive
-        if answer != room.answer:
+        elif answer != room.answer:
             if player.hearts > 0:
                 player.hearts -= 1
-        else:
-            if player.points > 0:
-                player.past_points += 1
-
-            player.points += 1
+            # Check whether the player is alive or not
+            if player.hearts == 0:
+                player.death_at = room.question
 
         # Send the answers to the admin
         dead_players = [p for p in room.players if p.hearts == 0]
@@ -336,7 +340,7 @@ def next_question(sid: str):
 
     # Emit to the admin and players
     sio.emit("next-question", to=room.admin_id)
-    sio.emit("next-question", to=room.id)
+    sio.emit("next-question", room=room.id)
 
 
 @sio.on("invalidate")
@@ -346,9 +350,8 @@ def invalidate(sid: str):
     for player in room.players:
         # Restore one heart to players
         if player.hearts < room.max_lives:
-            player.points = player.past_points
-            player.past_points -= 1
             player.hearts += 1
+            # FIXME: Si un joueur meurs T1, on joue 2T normalement et T3 on invalide. Le joueur mort revient à la vie ?
 
     # Update question progress
     room.question += 1
@@ -364,7 +367,9 @@ def invalidate(sid: str):
 def get_players(sid: str):
     room = session.query(Room).filter_by(id=room_id).first()
     players = [player.to_dict() for player in room.players]
-    sio.emit("get-players", data={"players": players}, to=sid)
+    sio.emit(
+        "get-players", data={"players": players, "maxLives": room.max_lives}, to=sid
+    )
 
 
 @sio.on("show-leaderboard")

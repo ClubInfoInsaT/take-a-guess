@@ -128,11 +128,11 @@ export default class PlayerStatsView extends Vue {
     });
 
     this.sockets.subscribe("next-question", () => {
-      this.$router.push({ name: "waiting" });
+      this.$router.push({ name: "beReady" });
     });
 
     this.sockets.subscribe("invalidate", () => {
-      this.$router.push({ name: "waiting" });
+      this.$router.push({ name: "beReady" });
     });
 
     this.sockets.subscribe("show-leaderboard", () => {
