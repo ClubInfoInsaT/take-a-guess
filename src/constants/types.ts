@@ -5,3 +5,10 @@ export type Player = {
   hearts: number;
   deathAt: number;
 };
+
+export enum AlertLevel {
+  INFO = "info",
+  DANGER = "danger",
+  SUCCESS = "success",
+  WARN = "warn",
+}
