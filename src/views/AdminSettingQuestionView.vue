@@ -50,11 +50,11 @@ import AnswerButton from "@/components/AnswerButton.vue";
 })
 export default class AdminWaitingRoomView extends Vue {
   private timer!: string;
-  private A = false;
-  private B = false;
-  private C = false;
-  private D = false;
-  private rightAnswer = "";
+  A = false;
+  B = false;
+  C = false;
+  D = false;
+  rightAnswer = "";
   question = "";
 
   onTimerChange(e: any) {
