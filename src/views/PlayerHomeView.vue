@@ -1,5 +1,12 @@
 <template>
-  <div class="flex items-center justify-center w-full h-screen">
+  <div class="flex items-center justify-center w-full h-screen relative">
+    <alert
+      v-if="toast.show"
+      class="absolute bottom-0"
+      :title="toast.title"
+      :description="toast.description"
+      :level="toast.alert"
+    />
     <div
       class="container flex flex-col items-center justify-center h-full max-w-6xl pl-0 mx-auto -mt-24 sm:pl-8 xl:pl-0 md:flex-row md:justify-between"
     >
@@ -53,20 +60,32 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import Alert from "@/components/Alert.vue";
 import LogoClubInfo from "@/components/LogoClubInfo.vue";
+import { AlertLevel } from "@/constants/types";
 
 @Component({
   components: {
+    Alert,
     LogoClubInfo,
   },
 })
 export default class PlayerHomeView extends Vue {
   username!: string;
+
+  toast = {
+    title: "",
+    description: "",
+    alert: AlertLevel.SUCCESS,
+    show: false,
+  };
+
   onPseudoChange(event: any) {
     if (event.target.value) {
       this.username = event.target.value;
     }
   }
+
   /**
    * Ping the server to join the room
    */
@@ -84,6 +103,15 @@ export default class PlayerHomeView extends Vue {
     this.sockets.subscribe("join-room", (data) => {
       if (data.status === "success") {
         this.$router.push({ name: "waiting" });
+      } else {
+        this.toast.title = data.status;
+        this.toast.description = data.reason;
+        this.toast.alert = AlertLevel.DANGER;
+        this.toast.show = true;
+
+        setTimeout(() => {
+          this.toast.show = false;
+        }, 5000);
       }
     });
   }
