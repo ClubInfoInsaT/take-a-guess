@@ -1,5 +1,12 @@
 <template>
-  <div class="flex items-center justify-center w-full h-screen">
+  <div class="flex items-center justify-center w-full h-screen relative">
+    <alert
+      v-if="toast.show"
+      class="absolute bottom-0"
+      :title="toast.title"
+      :description="toast.description"
+      :level="toast.level"
+    />
     <div
       class="container flex flex-col items-center justify-center h-full max-w-6xl pl-0 mx-auto -mt-24 sm:pl-8 xl:pl-0 md:flex-row md:justify-between"
     >
@@ -54,15 +61,25 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import Alert from "@/components/Alert.vue";
 import LogoClubInfo from "@/components/LogoClubInfo.vue";
+import { AlertLevel } from "@/constants/types";
 
 @Component({
   components: {
+    Alert,
     LogoClubInfo,
   },
 })
 export default class AdminHomeView extends Vue {
   private lifes!: number;
+
+  toast = {
+    title: "",
+    description: "",
+    level: AlertLevel.INFO,
+    show: false,
+  };
 
   // TODO: Change type to event
   onLifesChange = (e: any) => {
@@ -77,6 +94,15 @@ export default class AdminHomeView extends Vue {
       this.$socket.emit("create-room", {
         lifes: this.lifes,
       });
+    } else {
+      this.toast.title = "Valeur invalide";
+      this.toast.description = "Le nombre de vie doit être plus grand que 0";
+      this.toast.level = AlertLevel.WARN;
+      this.toast.show = true;
+
+      setTimeout(() => {
+        this.toast.show = false;
+      }, 5000);
     }
   };
 
