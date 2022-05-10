@@ -7,6 +7,12 @@
       Question {{ question }}
     </p>
     <hearts class="md:w-1/2 my-4" :left="heartsLeft" :total="hearts" />
+    <p
+      class="text-center text-4xl py-1 text-white uppercase"
+      v-if="heartsLeft === 0"
+    >
+      Mode spectateur
+    </p>
   </div>
 </template>
 
