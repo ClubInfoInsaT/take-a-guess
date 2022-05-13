@@ -30,28 +30,30 @@
         :class="deadPlayers() !== totalPlayers ? 'block' : 'hidden'"
         @click="showResultsToPlayers()"
       >
-        <span class="uppercase text-xl text-white">Montrer résultats</span>
+        <span class="uppercase md:text-2xl text-sm text-white"
+          >Montrer résultats</span
+        >
       </button>
       <button
         class="px-4 py-2 mb-2 bg-[#E40495] border-[#5E17EB] border-2 rounded-3xl fancy-shadow"
         :class="deadPlayers() !== totalPlayers ? 'block' : 'hidden'"
         @click="goNextQuestion()"
       >
-        <span class="uppercase text-xl text-white">Continuer</span>
+        <span class="uppercase md:text-2xl text-sm text-white">Continuer</span>
       </button>
 
       <button
         class="px-4 py-2 mb-2 bg-[#E40495] border-[#5E17EB] border-2 rounded-3xl fancy-shadow"
         @click="invalidate()"
       >
-        <span class="uppercase text-xl text-white">Invalider</span>
+        <span class="uppercase md:text-2xl text-sm text-white">Invalider</span>
       </button>
 
       <button
         class="px-4 py-2 mb-2 bg-[#E40495] border-[#5E17EB] border-2 rounded-3xl fancy-shadow"
         @click="endGame()"
       >
-        <span class="uppercase text-xl text-white">Fin Partie</span>
+        <span class="uppercase md:text-2xl text-sm text-white">Fin Partie</span>
       </button>
     </div>
   </div>
