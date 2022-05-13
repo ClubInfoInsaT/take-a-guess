@@ -2,8 +2,8 @@
   <div
     class="flex justify-center items-center p-4 flex-col h-screen container mx-auto"
   >
-    <p class="text-center text-4xl py-1 text-white uppercase">Prêts ?</p>
-    <p class="text-center text-6xl py-1 text-white uppercase">
+    <p class="text-center text-2xl py-1 text-white uppercase">Prêts ?</p>
+    <p class="text-center text-4xl py-1 text-white uppercase">
       Question {{ question }}
     </p>
     <hearts class="md:w-1/2 my-4" :left="heartsLeft" :total="hearts" />
