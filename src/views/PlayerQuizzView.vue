@@ -8,37 +8,35 @@
     <p class="text-center text-5xl py-8 text-white uppercase">
       Question {{ question }}
     </p>
-    <div class="my-8 h-full">
-      <div class="p-4 grid gap-4 grid-cols-2 h-3/4">
-        <answer-button
-          answer="A"
-          :selected="selectedAnswer === 'A'"
-          @click.native="!hasAnswered && setAnswer('A')"
-        />
-        <answer-button
-          answer="B"
-          :selected="selectedAnswer === 'B'"
-          @click.native="!hasAnswered && setAnswer('B')"
-        />
-        <answer-button
-          answer="C"
-          :selected="selectedAnswer === 'C'"
-          @click.native="!hasAnswered && setAnswer('C')"
-        />
-        <answer-button
-          answer="D"
-          :selected="selectedAnswer === 'D'"
-          @click.native="!hasAnswered && setAnswer('D')"
-        />
-      </div>
+    <div class="grid gap-4 grid-cols-2 h-3/4">
+      <answer-button
+        answer="A"
+        :selected="selectedAnswer === 'A'"
+        @click.native="!hasAnswered && setAnswer('A')"
+      />
+      <answer-button
+        answer="B"
+        :selected="selectedAnswer === 'B'"
+        @click.native="!hasAnswered && setAnswer('B')"
+      />
+      <answer-button
+        answer="C"
+        :selected="selectedAnswer === 'C'"
+        @click.native="!hasAnswered && setAnswer('C')"
+      />
+      <answer-button
+        answer="D"
+        :selected="selectedAnswer === 'D'"
+        @click.native="!hasAnswered && setAnswer('D')"
+      />
+    </div>
 
-      <div class="flex justify-center items-center h-1/4">
-        <circle-progress
-          :class="hasAnswered ? 'hidden' : 'block'"
-          class="text-[#5E17EB]"
-          :percent="100 * (1 - (maxTime - timeLeft) / maxTime)"
-        />
-      </div>
+    <div class="flex justify-center items-center h-1/4 m-4">
+      <circle-progress
+        :class="hasAnswered ? 'hidden' : 'block'"
+        class="text-[#5E17EB]"
+        :percent="100 * (1 - (maxTime - timeLeft) / maxTime)"
+      />
     </div>
   </div>
 </template>
