@@ -21,11 +21,18 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "home",
     component: PlayeyHomeView,
+    beforeEnter: (to, from, next) => {
+      if (from.name === null) next();
+      else if (from.name !== "waiting") from.name !== "waiting" && next(false);
+    },
   },
   {
     path: "/waiting",
     name: "waiting",
     component: PlayerWaitingRoomView,
+    beforeEnter: (to, from, next) => {
+      from.name !== "beReady" ? next() : next(false);
+    },
   },
   {
     path: "/be-ready",
@@ -36,11 +43,17 @@ const routes: Array<RouteConfig> = [
     path: "/quizz",
     name: "quizz",
     component: PlayerQuizzView,
+    beforeEnter: (to, from, next) => {
+      from.name !== "stats" ? next() : next(false);
+    },
   },
   {
     path: "/stats",
     name: "stats",
     component: PlayerStatsView,
+    beforeEnter: (to, from, next) => {
+      from.name !== "leaderboard" ? next() : next(false);
+    },
   },
   {
     path: "/leaderboard",
@@ -51,11 +64,17 @@ const routes: Array<RouteConfig> = [
     path: "/admin-home",
     name: "admin-home",
     component: AdminHomeView,
+    beforeEnter: (to, from, next) => {
+      from.name !== "admin-waiting" ? next() : next(false);
+    },
   },
   {
     path: "/admin-waiting",
     name: "admin-waiting",
     component: AdminWaitingRoomView,
+    beforeEnter: (to, from, next) => {
+      from.name !== "admin-question-settings" ? next() : next(false);
+    },
   },
   {
     path: "/admin-question-settings",
