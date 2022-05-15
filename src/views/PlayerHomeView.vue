@@ -102,7 +102,10 @@ export default class PlayerHomeView extends Vue {
      */
     this.sockets.subscribe("join-room", (data) => {
       if (data.status === "success") {
-        this.$router.push({ name: "waiting" });
+        this.$router.push({
+          name: "waiting",
+          params: { auto: "true" },
+        });
       } else {
         this.toast.title = data.status;
         this.toast.description = data.reason;

@@ -91,24 +91,28 @@ export default class QuizzView extends Vue {
     });
 
     this.sockets.subscribe("question-stats", (data) => {
-      const params = {
-        dead: data.dead,
-        alive: data.alive,
-      };
       this.$router.push({
         name: "stats",
-        params: params,
+        params: {
+          dead: data.dead,
+          alive: data.alive,
+          auto: "true",
+        },
       });
-
-      console.log("Pushing:", params);
     });
 
     this.sockets.subscribe("next-question", () => {
-      this.$router.push({ name: "beReady" });
+      this.$router.push({
+        name: "beReady",
+        params: { auto: "true" },
+      });
     });
 
     this.sockets.subscribe("invalidate", () => {
-      this.$router.push({ name: "beReady" });
+      this.$router.push({
+        name: "beReady",
+        params: { auto: "true" },
+      });
     });
   }
 

@@ -11,7 +11,7 @@
       class="container flex flex-col items-center justify-center h-full max-w-6xl pl-0 mx-auto -mt-24 sm:pl-8 xl:pl-0 md:flex-row md:justify-between"
     >
       <div
-        class="flex flex-col items-center w-5/6 md:items-start sm:w-1/2 lg:w-3/8 lg:mt-10"
+        class="flex flex-col items-center w-5/6 md:items-start sm:w-2/3 lg:w-3/8 lg:mt-10"
       >
         <div>
           <h1
@@ -28,7 +28,7 @@
           </p>
         </div>
 
-        <div class="flex gap-4 mt-5 flex-col sm:flex-row">
+        <div class="flex gap-4 mt-5">
           <div class="fancy-shadow rounded-3xl">
             <input
               @change="onLifesChange"
@@ -41,7 +41,7 @@
 
           <button
             @click="onCreateButtonClick"
-            class="bg-[#E40495] border-[#5E17EB] border-2 rounded-3xl py-3 fancy-shadow"
+            class="bg-[#E40495] border-[#5E17EB] border-2 rounded-3xl fancy-shadow"
           >
             <span
               class="text-white w-full h-full px-8 py-3 text-base font-bold xl:text-xl fold-bold uppercase"
@@ -112,7 +112,10 @@ export default class AdminHomeView extends Vue {
      */
     this.sockets.subscribe("create-room", (data) => {
       if (data.status === "success") {
-        this.$router.push("admin-waiting");
+        this.$router.push({
+          name: "admin-waiting",
+          params: { auto: "true" },
+        });
       }
     });
   }

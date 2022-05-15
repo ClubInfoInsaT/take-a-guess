@@ -36,7 +36,10 @@ export default class AdminWaitingRoomView extends Vue {
       this.users = data.players;
     });
     this.sockets.subscribe("lock-room-response", () => {
-      this.$router.push({ name: "admin-question-settings" });
+      this.$router.push({
+        name: "admin-question-settings",
+        params: { auto: "true" },
+      });
     });
   }
 

@@ -52,6 +52,7 @@ export default class WaitingRoomView extends Vue {
     this.sockets.subscribe("be-ready", () => {
       this.$router.push({
         name: "beReady",
+        params: { auto: "true" },
       });
     });
   }
