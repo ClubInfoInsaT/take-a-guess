@@ -166,7 +166,10 @@ export default class AdminStatsView extends Vue {
    */
   goNextQuestion() {
     this.$socket.emit("next-question");
-    this.$router.push("admin-question-settings");
+    this.$router.push({
+      name: "admin-question-settings",
+      params: { auto: "true" },
+    });
   }
 
   /**
@@ -178,7 +181,10 @@ export default class AdminStatsView extends Vue {
     this.$socket.emit("invalidate");
 
     this.sockets.subscribe("invalidate", () => {
-      this.$router.push("admin-question-settings");
+      this.$router.push({
+        name: "admin-question-settings",
+        params: { auto: "true" },
+      });
     });
   }
 
@@ -187,7 +193,10 @@ export default class AdminStatsView extends Vue {
    */
   endGame() {
     this.$socket.emit("show-leaderboard");
-    this.$router.push("leaderboard");
+    this.$router.push({
+      name: "leaderboard",
+      params: { auto: "true" },
+    });
   }
 }
 </script>

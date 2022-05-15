@@ -45,6 +45,7 @@ export default class BeReadyView extends Vue {
           hearts: this.hearts.toString(),
           heartsLeft: this.heartsLeft.toString(),
           question: this.question,
+          auto: "true",
         },
       });
     });

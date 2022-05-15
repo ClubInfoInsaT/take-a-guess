@@ -120,7 +120,7 @@ export default class Leaderboard extends Vue {
     });
 
     this.sockets.subscribe("leave-room", () => {
-      this.$router.push({ name: "home" });
+      this.$router.push({ name: "home", params: { auto: "true" } });
     });
   }
 }

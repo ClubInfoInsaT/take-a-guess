@@ -122,7 +122,10 @@ export default class AdminWaitingRoomView extends Vue {
     this.sockets.subscribe("set-question-settings-response", (data) => {
       console.log("Data: ", data);
       if (data.status === "success") {
-        this.$router.push({ name: "admin-stats" });
+        this.$router.push({
+          name: "admin-stats",
+          params: { auto: "true" },
+        });
       }
       // TODO: Show error to the admin
     });

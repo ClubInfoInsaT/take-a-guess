@@ -22,8 +22,9 @@ const routes: Array<RouteConfig> = [
     name: "home",
     component: PlayeyHomeView,
     beforeEnter: (to, from, next) => {
-      if (from.name === null) next();
-      else if (from.name !== "waiting") from.name !== "waiting" && next(false);
+      from.name === null || (to.params.auto && to.params.auto == "true")
+        ? next()
+        : next(false);
     },
   },
   {
@@ -31,20 +32,23 @@ const routes: Array<RouteConfig> = [
     name: "waiting",
     component: PlayerWaitingRoomView,
     beforeEnter: (to, from, next) => {
-      from.name !== "beReady" ? next() : next(false);
+      to.params.auto && to.params.auto == "true" ? next() : next(false);
     },
   },
   {
     path: "/be-ready",
     name: "beReady",
     component: PlayerBeReadyView,
+    beforeEnter: (to, from, next) => {
+      to.params.auto && to.params.auto == "true" ? next() : next(false);
+    },
   },
   {
     path: "/quizz",
     name: "quizz",
     component: PlayerQuizzView,
     beforeEnter: (to, from, next) => {
-      from.name !== "stats" ? next() : next(false);
+      to.params.auto && to.params.auto == "true" ? next() : next(false);
     },
   },
   {
@@ -52,20 +56,25 @@ const routes: Array<RouteConfig> = [
     name: "stats",
     component: PlayerStatsView,
     beforeEnter: (to, from, next) => {
-      from.name !== "leaderboard" ? next() : next(false);
+      to.params.auto && to.params.auto == "true" ? next() : next(false);
     },
   },
   {
     path: "/leaderboard",
     name: "leaderboard",
     component: LeaderboardView,
+    beforeEnter: (to, from, next) => {
+      to.params.auto && to.params.auto == "true" ? next() : next(false);
+    },
   },
   {
     path: "/admin-home",
     name: "admin-home",
     component: AdminHomeView,
     beforeEnter: (to, from, next) => {
-      from.name !== "admin-waiting" ? next() : next(false);
+      from.name === "home" || (to.params.auto && to.params.auto == "true")
+        ? next()
+        : next(false);
     },
   },
   {
@@ -73,18 +82,24 @@ const routes: Array<RouteConfig> = [
     name: "admin-waiting",
     component: AdminWaitingRoomView,
     beforeEnter: (to, from, next) => {
-      from.name !== "admin-question-settings" ? next() : next(false);
+      to.params.auto && to.params.auto == "true" ? next() : next(false);
     },
   },
   {
     path: "/admin-question-settings",
     name: "admin-question-settings",
     component: AdminSettingQuestionView,
+    beforeEnter: (to, from, next) => {
+      to.params.auto && to.params.auto == "true" ? next() : next(false);
+    },
   },
   {
     path: "/admin-stats",
     name: "admin-stats",
     component: AdminStatsView,
+    beforeEnter: (to, from, next) => {
+      to.params.auto && to.params.auto == "true" ? next() : next(false);
+    },
   },
 ];
 
