@@ -3,24 +3,26 @@
     <p class="text-center text-5xl py-8 text-white uppercase">
       Paramètres Question {{ question }}
     </p>
-    <div
-      class="border-white rounded-xl flex flex-col gap-4 h-full overflow-x-scroll text-center"
-    >
+    <div class="border-white rounded-xl flex flex-col gap-4 h-full text-center">
       <div class="flex flex-col mx-auto">
-        <label class="uppercase text-2xl text-white">Temps de réponse:</label>
+        <label class="uppercase md:text-2xl text-lg text-white"
+          >Temps de réponse:</label
+        >
         <input
-          class="p-4 my-2 rounded-xl outline-none text-center text-xl"
+          class="py-2 my-2 rounded-xl outline-none text-center text-xl"
           type="number"
           min="1"
           @change="onTimerChange"
         />
-        <p class="text-2xl text-white">secondes</p>
+        <p class="md:text-2xl text-lg text-white">secondes</p>
       </div>
 
       <div class="my-8 h-full">
-        <p class="uppercase text-2xl text-white">Choix de la bonne réponse:</p>
+        <p class="uppercase md:text-2xl text-lg text-white">
+          Choix de la bonne réponse:
+        </p>
 
-        <div class="p-16 grid gap-8 grid-cols-2 h-full">
+        <div class="my-4 grid gap-4 grid-cols-2 h-3/4">
           <answer-button answer="A" :selected="A" @click.native="toggleA()" />
           <answer-button answer="B" :selected="B" @click.native="toggleB()" />
           <answer-button answer="C" :selected="C" @click.native="toggleC()" />
@@ -57,6 +59,7 @@ export default class AdminWaitingRoomView extends Vue {
   rightAnswer = "";
   question = "";
 
+  // eslint-disable-next-line
   onTimerChange(e: any) {
     this.timer = e.target.value;
   }

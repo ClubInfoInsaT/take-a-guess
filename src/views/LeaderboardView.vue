@@ -10,27 +10,30 @@
         class="rounded-xl border-2 px-4 py-2 border-white w-1/2"
         @click="showDead = false"
       >
-        <span class="uppercase text-2xl text-white">Survivants</span>
+        <span class="uppercase md:text-2xl text-lg text-white">Survivants</span>
       </button>
       <button
         class="rounded-xl border-2 px-4 py-2 border-white w-1/2"
         @click="showDead = true"
       >
-        <span class="uppercase text-2xl text-white">Morts</span>
+        <span class="uppercase md:text-2xl text-lg text-white">Morts</span>
       </button>
     </div>
     <div
-      class="border-2 border-white rounded-xl flex flex-col gap-4 p-4 h-full overflow-x-scroll"
+      class="border-2 border-white rounded-xl flex flex-col gap-4 py-4 h-full overflow-x-scroll"
       v-if="!showDead"
     >
-      <div class="flex flex-row text-white text-2xl">
+      <div class="flex flex-row text-white md:text-2xl text-lg">
         <div class="w-1/5 text-center">Pos.</div>
         <div class="w-2/5">Pseudo</div>
         <div class="w-1/5 text-center">Vies</div>
         <div class="w-1/5 text-center">Tours</div>
       </div>
 
-      <div class="flex flex-col gap-4 overflow-x-scroll" v-if="maxHearts !== 0">
+      <div
+        class="flex flex-col gap-4 overflow-x-scroll px-0"
+        v-if="maxHearts !== 0"
+      >
         <ranking
           v-for="(player, i) in playersAlive"
           :maxHearts="maxHearts"
@@ -44,14 +47,17 @@
       class="border-2 border-white rounded-xl flex flex-col gap-4 p-4 h-full overflow-x-scroll"
       v-else
     >
-      <div class="flex flex-row text-white text-2xl">
+      <div class="flex flex-row text-white md:text-2xl text-lg">
         <div class="w-1/5 text-center">Pos.</div>
         <div class="w-2/5">Pseudo</div>
         <div class="w-1/5 text-center">Vies</div>
         <div class="w-1/5 text-center">Tours</div>
       </div>
 
-      <div class="flex flex-col gap-4 overflow-x-scroll" v-if="maxHearts !== 0">
+      <div
+        class="flex flex-col gap-4 overflow-x-scroll px-0"
+        v-if="maxHearts !== 0"
+      >
         <ranking
           v-for="(player, i) in deadPlayers"
           :maxHearts="maxHearts"

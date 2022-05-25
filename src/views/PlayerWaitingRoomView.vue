@@ -8,7 +8,7 @@
       class="border-2 border-white rounded-xl flex flex-col gap-4 h-full overflow-x-scroll"
     >
       <span
-        class="text-2xl text-center text-white"
+        class="text-2xl md:text-4xl text-center text-white"
         v-for="user in users"
         :key="user.id"
         >{{ user.name }}</span
@@ -28,9 +28,9 @@ import { Player } from "@/constants/types";
   },
 })
 export default class WaitingRoomView extends Vue {
-  private users: Player[] = [];
-  private hearts = 0;
-  private question = 0;
+  users: Player[] = [];
+  hearts = 0;
+  question = 0;
 
   mounted() {
     // Whenever a player joined the room

@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center p-4 flex-col h-screen">
-    <p class="text-center text-4xl py-1 text-white uppercase">
+    <p class="text-center text-2xl md:text-4xl py-1 text-white uppercase">
       Salle d'attente
     </p>
     <div
@@ -29,7 +29,7 @@ import { Player } from "@/constants/types";
 
 @Component
 export default class AdminWaitingRoomView extends Vue {
-  private users: Player[] = [];
+  users: Player[] = [];
 
   mounted() {
     this.sockets.subscribe("user-joined", (data) => {

@@ -8,7 +8,7 @@
       :level="toast.level"
     />
     <div
-      class="container flex flex-col items-center justify-center h-full max-w-6xl pl-0 mx-auto -mt-24 sm:pl-8 xl:pl-0 md:flex-row md:justify-between"
+      class="container flex flex-col items-center justify-center h-full max-w-6xl pl-0 mx-auto sm:pl-8 xl:pl-0 md:flex-row md:justify-between"
     >
       <div
         class="flex flex-col items-center w-5/6 md:items-start sm:w-2/3 lg:w-3/8 lg:mt-10"
@@ -81,7 +81,7 @@ export default class AdminHomeView extends Vue {
     show: false,
   };
 
-  // TODO: Change type to event
+  // eslint-disable-next-line
   onLifesChange = (e: any) => {
     this.lifes = e.target.value;
   };
