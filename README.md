@@ -25,20 +25,13 @@
 
 ---
 
-### Features
-
-- Awesome feature 1
-- Awesome feature 2
-- Awesome feature 3
-- Awesome feature 4
-
-### Installation
+## Installation
 
 ```console
 npm install
 ```
 
-### ⚠️ Important ⚠️
+## ⚠️ Important ⚠️
 
 Eslint and Prettier are set up in the project to keep to code clean and readable
 There is a [settings.json](.vscode/settings.json) for VSCode.
@@ -49,7 +42,7 @@ I hightly suggest you to install the following extensions from the marketplace:
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
 
-### How to run the project
+## 🔌 How to run the project 🔌
 
 Here are the things to do to run the project
 
@@ -90,14 +83,33 @@ http://localhost:8080
 
 > The admin has to create the lobby **_BEFORE_** a player try to join the room
 
-### Reports & Contributions
+## 📔 How to run the project D-Day 📔
+
+- Copy the http**s** link generated with the following command: `ngrok http 8000`
+- Paste it here:
+  ```javascript
+  Vue.use(
+    new VueSocketIO({
+      debug: true,
+      connection: "paste-link-here",
+    })
+  );
+  ```
+- Build the site with
+  ```console
+  npm run build-prod
+  ```
+- Send everything from [this directory](dist) to the server
+- Start the python script
+
+## Reports & Contributions
 
 Feel free to open an issue to report any bugs or a pr to contribute.
 Make sure to respect the [issue-template](.github/issue_template.md) and the [pr-templte](.github/pull_request_template.md)
 
 Any pull request not formatted properly with eslint/prettier will not be reviewed
 
-### Learn More
+## Learn More
 
 - You should have a look at [node](https://nodejs.org/en/) before
 - To learn VueJS, check out the [Vue documention](https://vuejs.org/guide/introduction.html)
@@ -105,3 +117,7 @@ Any pull request not formatted properly with eslint/prettier will not be reviewe
 - [Tailwindcss](https://tailwindcss.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - Check out the [socket.io documention](https://socket.io/docs/v4/)
+
+## Roadmap
+
+- Turn the website into (react-native) app
