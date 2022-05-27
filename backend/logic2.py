@@ -421,5 +421,5 @@ if __name__ == "__main__":
     room_id = str(uuid4())
     print(f"\t - ROOM ID: {room_id}\n")
 
-    print("Socket server running: 'localhost:3001'")
-    pywsgi.WSGIServer(("", 3001), app).serve_forever()
+    print("Socket server running: 'localhost:8000'")
+    pywsgi.WSGIServer(("", 8000), app).serve_forever()
