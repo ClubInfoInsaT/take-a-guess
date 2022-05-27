@@ -34,7 +34,12 @@ Vue.use(VueApexCharts);
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: "http://localhost:3001",
+    connection: "http://localhost:8000",
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // options: {
+    //   path: "/~leban/blanket/",
+    // },
   })
 );
 
