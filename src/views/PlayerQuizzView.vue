@@ -99,6 +99,13 @@ export default class QuizzView extends Vue {
       });
     });
 
+    this.sockets.subscribe("show-leaderboard", () => {
+      this.$router.push({
+        name: "leaderboard",
+        params: { auto: "true" },
+      });
+    });
+
     this.sockets.subscribe("next-question", () => {
       this.$router.push({
         name: "beReady",
