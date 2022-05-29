@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center p-4 flex-col h-screen">
-    <hearts :left="hearts" :total="hearts" />
+    <hearts :left="hearts" :total="hearts" :name="name" />
     <p class="text-center text-4xl py-1 text-white uppercase">
       Salle d'attente
     </p>
@@ -31,8 +31,12 @@ export default class WaitingRoomView extends Vue {
   users: Player[] = [];
   hearts = 0;
   question = 0;
+  name = "N/A";
 
   mounted() {
+    // Retrieve name from route params
+    this.name = this.$route.params.name;
+
     // Whenever a player joined the room
     this.sockets.subscribe("user-joined", (data) => {
       this.users = data.players;

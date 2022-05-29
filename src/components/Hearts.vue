@@ -2,7 +2,7 @@
   <div
     class="flex w-full justify-between text-white bg-white border rounded-xl bg-opacity-30 p-2 mb-8"
   >
-    <p class="text-2xl uppercase font-bold">Vies</p>
+    <p class="text-2xl uppercase font-bold">{{ name }}</p>
     <div class="flex flex-row items-center gap-x-2">
       <!-- Lifes consummed -->
       <font-awesome-icon
@@ -28,6 +28,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class Hearts extends Vue {
   @Prop({ required: true, default: 0 }) readonly left!: number;
   @Prop({ required: true, default: 0 }) readonly total!: number;
+  @Prop({ required: true, default: "N/A" }) readonly name!: string;
   brokenHeartId(i: number) {
     return `broken-${i}`;
   }
