@@ -44,7 +44,7 @@
       </div>
     </div>
     <div
-      class="border-2 border-white rounded-xl flex flex-col gap-4 p-4 h-full overflow-x-scroll"
+      class="border-2 border-white rounded-xl flex flex-col gap-4 py-4 h-full overflow-x-scroll"
       v-else
     >
       <div class="flex flex-row text-white md:text-2xl text-lg">
