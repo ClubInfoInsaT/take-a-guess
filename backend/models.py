@@ -39,11 +39,12 @@ class Player(Base):
     answer = Column(String)
     hearts = Column(Integer)
     death_at = Column(Integer)
+    disconnected = Column(Integer, default=0)
 
     player = relationship("Room", back_populates="players")
 
     def __repr__(self) -> str:
-        return f"Player(name={self.name}, sid={self.sid}, answer={self.answer}, hearts={self.hearts}, death_at={self.death_at})"
+        return f"Player(name={self.name}, sid={self.sid}, answer={self.answer}, hearts={self.hearts}, death_at={self.death_at}, disconnected={self.disconnected == 1})"
 
     def to_dict(self) -> dict:
         return {
@@ -52,6 +53,7 @@ class Player(Base):
             "answer": self.answer,
             "hearts": self.hearts,
             "deathAt": self.death_at,
+            "disconnected": self.disconnected == 1,
         }
 
 
