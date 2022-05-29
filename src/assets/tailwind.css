@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Fredoka", sans-serif;
-  src: local("Fredoka-Variable"),
-    url("../assets/fonts/Fredoka-Variable.ttf") format("truetype");
+  font-family: 'Sifonn Pro';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Sifonn Pro'), url('../assets/fonts/SIFONN_PRO.woff') format('woff');
 }
-
 
 html {
   height: 100%;
@@ -21,7 +21,7 @@ html {
 
 body {
   overflow-x: hidden;
-  font-family: "Fredoka";
+  font-family: "Sifonn Pro";
 }
 
 .fancy-shadow {
