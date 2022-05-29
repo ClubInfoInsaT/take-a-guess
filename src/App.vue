@@ -21,6 +21,11 @@ export default Vue.extend({
       },
       false
     );
+
+    // Emit a disconnect event when the client leave the page
+    window.addEventListener("beforeunload", () => {
+      this.$socket.disconnect();
+    });
   },
 });
 </script>

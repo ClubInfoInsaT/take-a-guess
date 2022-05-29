@@ -51,5 +51,16 @@ new Vue({
     connect: () => {
       console.log("Connected");
     },
+    adminDisconnect: () => {
+      console.log("The admin leave the room...");
+      router.push({ name: "home", params: { auto: "true" } });
+    },
+    disconnect: () => {
+      console.log("You've been disconnected...");
+      router.push({
+        name: "home",
+        params: { auto: "true" },
+      });
+    },
   },
 }).$mount("#app");

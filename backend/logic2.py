@@ -64,7 +64,7 @@ def onJoinRoom(sid: str, data: dict):
     """
     username = data.get("username", None)
     room = session.query(Room).filter_by(id=room_id).first()
-    player = session.query(Player).filter_by(name=username).first()
+    player = session.query(Player).filter_by(name=username, disconnected=0).first()
 
     if not username:
         sio.emit(
@@ -92,6 +92,7 @@ def onJoinRoom(sid: str, data: dict):
                         answer="",
                         hearts=room.max_lives,
                         death_at=0,
+                        disconnected=0,
                     )
                 )
                 sio.enter_room(sid, room=room.id)
@@ -101,11 +102,15 @@ def onJoinRoom(sid: str, data: dict):
                     to=sid,
                 )
 
-                players = [player.to_dict() for player in room.players]
+                players = [
+                    player.to_dict()
+                    for player in room.players
+                    if player.disconnected == 0
+                ]
 
-                # Tell the admin a new player joined the room
+                # Tell the admin a new player joined/left the room
                 sio.emit("user-joined", data={"players": players}, to=room.admin_id)
-                # Tell the players someone joined the room too
+                # Tell the players someone joined/left the room too
                 sio.emit("user-joined", data={"players": players}, room=room.id)
         else:
             sio.emit(
@@ -148,7 +153,7 @@ def get_game_info(sid: str):
         sid (str): the user's socket id
     """
     room = session.query(Room).filter_by(id=room_id).first()
-    players = [player.to_dict() for player in room.players]
+    players = [player.to_dict() for player in room.players if player.disconnected == 0]
     settings = {"lives": room.max_lives, "timer": room.timer}
     sio.emit(
         "get-game-info",
@@ -271,12 +276,16 @@ def user_answer(sid: str, data: dict):
                 player.death_at = room.question
 
         # Send the answers to the admin
-        dead_players = [p for p in room.players if p.hearts == 0]
-        players_alive = [p for p in room.players if p.hearts > 0]
+        dead_players = [
+            p for p in room.players if p.hearts == 0 and p.disconnected == 0
+        ]
+        players_alive = [
+            p for p in room.players if p.hearts > 0 and p.disconnected == 0
+        ]
         sio.emit(
             "update-answers",
             data={
-                "players": len(room.players),
+                "players": len(players_alive + dead_players),
                 "alive": [
                     len([p for p in players_alive if p.answer == "A"]),
                     len([p for p in players_alive if p.answer == "B"]),
@@ -308,8 +317,8 @@ def question_stats(sid: str):
     room = session.query(Room).filter_by(id=room_id).first()
 
     # Send the answers to the admin
-    dead_players = [p for p in room.players if p.hearts == 0]
-    players_alive = [p for p in room.players if p.hearts > 0]
+    dead_players = [p for p in room.players if p.hearts == 0 and p.disconnected == 0]
+    players_alive = [p for p in room.players if p.hearts > 0 and p.disconnected == 0]
     sio.emit(
         "question-stats",
         data={
@@ -349,7 +358,7 @@ def invalidate(sid: str):
 
     for player in room.players:
         # Restore one heart to players
-        if player.hearts < room.max_lives:
+        if player.hearts < room.max_lives and player.disconnected == 0:
             player.hearts += 1
             # FIXME: Si un joueur meurs T1, on joue 2T normalement et T3 on invalide. Le joueur mort revient à la vie ?
 
@@ -396,7 +405,31 @@ def connect(sid, environ):
 @sio.event
 def disconnect(sid):
     print("disconnect ", sid)
-    # TODO: Remove disconnected player from the ROOM and emit events
+    room = session.query(Room).filter_by(id=room_id).first()
+    player = session.query(Player).filter_by(sid=sid).first()
+
+    # If the admin just disconnected
+    if room.admin_id == sid:
+        # Disconnect every players in the room
+        sio.emit("adminDisconnect", room=room.id)
+        # Remove entries from the DB
+        for player in room.players:
+            session.delete(player)
+        room.players = []
+        session.delete(room)
+
+    # If it's a player
+    elif player:
+        player.disconnected = 1
+        players = [p.to_dict() for p in room.players if p.disconnected == 0]
+        # Tell everybody
+        sio.emit("user-joined", data={"players": players}, to=room.admin_id)
+        sio.emit("user-joined", data={"players": players}, room=room.id)
+
+    else:
+        print("Someone who's not registered just disconnected !!")
+
+    print(repr(room))
 
 
 if __name__ == "__main__":
