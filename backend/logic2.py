@@ -194,6 +194,7 @@ def get_player_info(sid: str):
             "question": room.question,
             "isCorrect": room.answer == player.answer,
             "answer": room.answer,
+            "name": player.name,
         },
         to=sid,
     )
