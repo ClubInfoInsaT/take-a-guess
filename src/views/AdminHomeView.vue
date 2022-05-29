@@ -52,11 +52,17 @@
       </div>
 
       <div
-        class="flex flex-col items-end justify-center w-5/6 h-auto pl-0 pr-0 mt-10 sm:pl-20 sm:pr-8 xl:pr-0 md:mt-0 md:h-full sm:w-2/3"
+        class="flex flex-col items-center justify-center w-5/6 h-auto mt-10 md:mt-0 md:h-full sm:w-2/3"
       >
         <logo-club-info />
       </div>
     </div>
+    <p class="absolute bottom-0 text-white py-4">
+      © 2022 Club Info -
+      <a class="underline" href="mailto:club.info@amicale-insat.fr"
+        >club.info@amicale-insat.fr</a
+      >
+    </p>
   </div>
 </template>
 <script lang="ts">
