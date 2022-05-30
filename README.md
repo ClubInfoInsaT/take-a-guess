@@ -1,6 +1,6 @@
 <div align="center">
-	<a  href="https://github.com/ClubInfoInsaT/take-a-guess">
-		<img  src="https://raw.githubusercontent.com/ClubInfoInsaT/quizz/main/meta/logo-battle-royale-culture-g.png" width="600px" />
+  <a  href="https://github.com/ClubInfoInsaT/take-a-guess">
+		<img  src="./mobile-preview.png" width="600px" />
 	</a>
 </div>
 
@@ -11,9 +11,11 @@
 <div align="center">I swear it's not a kahoot copy !!</div>
 <br />
 <div align="center">
-  <a href="#">Site</a>
+  <a href="https://www.etud.insa-toulouse.fr/~quizz/#/">Site</a>
   <span> · </span>
-  <a href="#">Documentation</a>
+  <a href="#installation">Installation</a>
+  <span> · </span>
+  <a href="#how-to-run-the-project">How to run the project</a>
   <span> · </span>
   <a href="https://etud.insa-toulouse.fr/clubinfo/">Club Info</a>
 </div>
@@ -31,7 +33,7 @@
 npm install
 ```
 
-## ⚠️ Important ⚠️
+## Important
 
 Eslint and Prettier are set up in the project to keep to code clean and readable
 There is a [settings.json](.vscode/settings.json) for VSCode.
@@ -42,7 +44,7 @@ I hightly suggest you to install the following extensions from the marketplace:
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
 
-## 🔌 How to run the project 🔌
+## How to run the project
 
 Here are the things to do to run the project
 
@@ -81,8 +83,6 @@ http://localhost:8080
 > To create a room as an admin go to `http://localhost:8080/admin-home`
 > To join a room as player got to `http://localhost:8080`
 
-> The admin has to create the lobby **_BEFORE_** a player try to join the room
-
 ## 📔 How to run the project D-Day 📔
 
 - Copy the http**s** link generated with the following command: `ngrok http 8000`
@@ -102,13 +102,6 @@ http://localhost:8080
 - Send everything from [this directory](dist) to the server
 - Start the python script
 
-## Reports & Contributions
-
-Feel free to open an issue to report any bugs or a pr to contribute.
-Make sure to respect the [issue-template](.github/issue_template.md) and the [pr-templte](.github/pull_request_template.md)
-
-Any pull request not formatted properly with eslint/prettier will not be reviewed
-
 ## Learn More
 
 - You should have a look at [node](https://nodejs.org/en/) before
@@ -120,4 +113,4 @@ Any pull request not formatted properly with eslint/prettier will not be reviewe
 
 ## Roadmap
 
-- Turn the website into (react-native) app
+- Turn the website into an app
