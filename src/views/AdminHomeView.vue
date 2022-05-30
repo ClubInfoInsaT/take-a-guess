@@ -23,8 +23,8 @@
           <p
             class="my-3 text-base text-center text-gray-600 xl:text-xl md:text-left"
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Viens affronter tes potes dans une battle royale de questions de
+            culture gé commentée et animée
           </p>
         </div>
 
@@ -57,7 +57,7 @@
         <logo-club-info />
       </div>
     </div>
-    <p class="absolute bottom-0 text-white py-4">
+    <p class="absolute bottom-0 text-white py-4 text-center">
       © 2022 Club Info -
       <a class="underline" href="mailto:club.info@amicale-insat.fr"
         >club.info@amicale-insat.fr</a
