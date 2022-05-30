@@ -111,7 +111,7 @@ export default class PlayerHomeView extends Vue {
       if (data.status === "success") {
         this.$router.push({
           name: "waiting",
-          params: { auto: "true" },
+          params: { auto: "true", name: this.username },
         });
       } else {
         this.toast.title = data.status;

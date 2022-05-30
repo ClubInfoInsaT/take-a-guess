@@ -6,7 +6,12 @@
     <p class="text-center text-4xl py-1 text-white uppercase">
       Question {{ question }}
     </p>
-    <hearts class="md:w-1/2 my-4" :left="heartsLeft" :total="hearts" />
+    <hearts
+      class="md:w-1/2 my-4"
+      :left="heartsLeft"
+      :total="hearts"
+      :name="name"
+    />
     <p
       class="text-center text-4xl py-1 text-white uppercase"
       v-if="heartsLeft === 0"
@@ -28,14 +33,15 @@ export default class BeReadyView extends Vue {
   question = "";
   hearts = 0;
   heartsLeft = 0;
+  name = "N/A";
 
   mounted() {
     this.$socket.emit("get-player-info");
     this.sockets.subscribe("get-player-info", (data) => {
-      console.log("Player data: ", data);
       this.hearts = parseInt(data.hearts);
       this.heartsLeft = parseInt(data.left);
       this.question = data.question;
+      this.name = data.name;
     });
     this.sockets.subscribe("question-start", (data) => {
       this.$router.push({

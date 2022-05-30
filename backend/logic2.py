@@ -194,6 +194,7 @@ def get_player_info(sid: str):
             "question": room.question,
             "isCorrect": room.answer == player.answer,
             "answer": room.answer,
+            "name": player.name,
         },
         to=sid,
     )
@@ -376,9 +377,19 @@ def invalidate(sid: str):
 def get_players(sid: str):
     room = session.query(Room).filter_by(id=room_id).first()
     players = [player.to_dict() for player in room.players]
-    sio.emit(
-        "get-players", data={"players": players, "maxLives": room.max_lives}, to=sid
-    )
+    player = session.query(Player).filter_by(sid=sid).first()
+    if player:
+        sio.emit(
+            "get-players",
+            data={"players": players, "maxLives": room.max_lives, "name": player.name},
+            to=sid,
+        )
+    else:
+        sio.emit(
+            "get-players",
+            data={"players": players, "maxLives": room.max_lives},
+            to=sid,
+        )
 
 
 @sio.on("show-leaderboard")

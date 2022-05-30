@@ -3,6 +3,7 @@
     <hearts
       :left="heartsLeft"
       :total="hearts"
+      :name="name"
       v-if="hearts !== -1 && heartsLeft !== -1"
     />
     <p class="text-center text-5xl py-8 text-white uppercase">
@@ -64,6 +65,7 @@ export default class QuizzView extends Vue {
   timeLeft = Number.MAX_VALUE;
   startTime!: number;
   intervalId!: number;
+  name = "N/A";
 
   /**
    * When the component is mounted
@@ -86,6 +88,7 @@ export default class QuizzView extends Vue {
       this.heartsLeft = data.left;
       this.maxTime = data.timer;
       this.question = data.question;
+      this.name = data.name;
     });
 
     this.sockets.subscribe("question-stats", (data) => {

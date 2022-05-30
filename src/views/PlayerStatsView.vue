@@ -3,9 +3,10 @@
     <hearts
       :left="heartsLeft"
       :total="hearts"
+      :name="name"
       v-if="hearts !== -1 && heartsLeft !== -1"
     />
-    <div class="border-white rounded-xl flex flex-col">
+    <div class="border-white rounded-xl flex flex-col h-screen">
       <div>
         <p class="text-center text-xl text-white">
           Joueurs en lice: {{ playersStillAlive() }}
@@ -101,6 +102,7 @@ export default class PlayerStatsView extends Vue {
   heartsLeft = -1;
   isCorrect: boolean | null = null;
   rightAnswer = "";
+  name = "N/A";
 
   mounted() {
     this.isCorrect = this.$route.params.isCorrect === "true"; // Parse to bool using comparaison
@@ -125,6 +127,7 @@ export default class PlayerStatsView extends Vue {
       this.heartsLeft = data.left;
       this.isCorrect = data.isCorrect;
       this.rightAnswer = data.answer;
+      this.name = data.name;
     });
 
     this.sockets.subscribe("next-question", () => {

@@ -40,6 +40,7 @@
           :player="player"
           :position="i"
           :key="i"
+          :class="name === player.name && 'italic bold'"
         />
       </div>
     </div>
@@ -64,6 +65,9 @@
           :player="player"
           :position="i"
           :key="i"
+          :class="
+            name === player.name ? 'text-teal-500 scale-110' : 'text-white'
+          "
         />
       </div>
     </div>
@@ -93,18 +97,18 @@ export default class Leaderboard extends Vue {
   deadPlayers: Player[] = [];
   showDead = false;
   maxHearts = 0;
+  name = "N/A";
 
   leaveRoom() {
     this.$socket.emit("leave-room");
   }
 
   mounted() {
-    /**
-     * Ping the server to get a list of all the players
-     */
     this.$socket.emit("get-players");
 
     this.sockets.subscribe("get-players", (data) => {
+      this.name = data.name;
+
       // Sort players by their points
       let sortedPlayers: Player[] = data.players.sort(
         (p1: Player, p2: Player) => {
