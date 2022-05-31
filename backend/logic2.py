@@ -376,7 +376,7 @@ def invalidate(sid: str):
 @sio.on("get-players")
 def get_players(sid: str):
     room = session.query(Room).filter_by(id=room_id).first()
-    players = [player.to_dict() for player in room.players]
+    players = [player.to_dict() for player in room.players if player.disconnected == 0]
     player = session.query(Player).filter_by(sid=sid).first()
     if player:
         sio.emit(
