@@ -114,6 +114,8 @@ export default class Leaderboard extends Vue {
         (p1: Player, p2: Player) => {
           if (p1.deathAt < p2.deathAt) return 1; // Sort in dsc order
           if (p1.deathAt > p2.deathAt) return -1;
+          if (p1.hearts < p2.hearts) return 1;
+          if (p1.hearts > p2.hearts) return -1;
           return 0;
         }
       );
